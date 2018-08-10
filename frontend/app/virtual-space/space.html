@@ -1,0 +1,150 @@
+<div flex layout="row" class="virtual-space" ng-controller="virtualSpaceController" ng-init="init()" md-theme="virtual-space">
+
+
+  <md-content flex layout="column" layout-padding style="position: relative !important">
+
+    <md-fab-toolbar md-direction="left" md-fab-top-right>
+      <md-fab-trigger class="align-with-text">
+        <md-button aria-label="Button" class="md-fab md-primary" >
+          <md-icon md-font-icon="{{currentSpaceIcon}}" class="fa-lg"></md-icon>
+        </md-button>
+      </md-fab-trigger>
+
+      <md-toolbar>
+        <md-fab-actions class="md-toolbar-tools">
+          <md-button ng-repeat="spaceType in spaceTypeList track by $index" aria-label="Change virtual space" class="md-icon-button" ng-click="changeSpaceType(spaceType)">
+            <md-icon md-font-icon="{{spaceType.icon}}" class="fa-lg"></md-icon>
+          </md-button>
+        </md-fab-actions>
+      </md-toolbar>
+    </md-fab-toolbar>
+
+
+    <md-content flex class="virtual-space-container" >
+      <div class="virtual-space-panel" vspace-droppable-panel drop="onDropComplete" ng-class="virtualSpace.spaceType">
+
+        <div drag-to-move class="vspace-vo-item" ng-repeat="vo in virtualSpace.voList" ng-style="draggablePositionStyle(vo.iconPosition)" position="vo.iconPosition" on-drag-end="onIconPositionChanged" object-id="{{vo.voId}}">
+          <div class="containing-cvo-list" layout="row" >
+            <div flex="none" class="containing-cvo-item" ng-repeat="cvo in containingCVOList(vo)">
+              <i class="containing-cvo-item-icon" ng-class="cvo.icon" ng-style="iconBGColor(cvo.iconColor)"></i>
+            </div>
+          </div>
+          <div calss="vo-item-info" layout="row">
+            <div flex="none"><i class="vo-list-item-icon" ng-class="vo.icon" ng-style="iconBGColor(vo.iconColor)"></i></div>
+            <div flex class="vo-item-data">
+              <div>{{vo.voName}}</div>
+              <small ng-bind="vo.voLatestValue"></small>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </md-content>
+
+    <div  drag-to-move md-whiteframe="3" id="cvo-list-panel" aria-label="Eat me!" layout="column"
+          layout-align="center center" ng-style="draggablePositionStyle(cvoPanel.position)"
+          position="cvoPanel.position" on-drag-end="onPanelPositionChanged">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <md-button class="md-icon-button" aria-label="Toggle" ng-click="cvoPanel.expanded = !cvoPanel.expanded" style="font-size: 18pt;">
+            <md-icon md-font-icon="fas" ng-class="cvoPanel.expanded ? 'fa-minus-square' : 'fa-plus-square'"></md-icon>
+          </md-button>
+          <h2 flex>Used CVOs</h2>
+          <md-checkbox></md-checkbox>
+        </div>
+      </md-toolbar>
+
+      <div class="cvo-panel-content" ng-show="cvoPanel.expanded"
+           data-drop="true" jqyoui-options="{revertDuration: 1000}" jqyoui-droppable="{onDrop: 'onDrop'}" >
+        <md-list>
+          <md-list-item class="cvo-list-item md-2-line md-no-proxy" ng-repeat="cvo in containingCVOList()">
+            <i class="cvo-list-item-icon md-avatar" ng-class="cvo.icon" ng-style="iconBGColor(cvo.iconColor)"></i>
+
+            <div class="md-list-item-text">
+              <h3>{{cvo.cvoName}}</h3>
+              <p>{{cvo.cvoId}}</p>
+            </div>
+            <md-checkbox></md-checkbox>
+          </md-list-item>
+        </md-list>
+
+
+      </div>
+    </div>
+
+
+
+  </md-content>
+
+  <md-sidenav
+    class="md-sidenav-right vspace-list-sidebar"
+    md-component-id="vspace-list-sidebar"
+    md-is-locked-open="true"
+    md-whiteframe="4"
+    flle="none"
+  >
+
+    <md-toolbar flex="none">
+      <h1 class="md-toolbar-tools"><i class="far fa-map"></i>&nbsp;Composited VO list</h1>
+      <input type="text" ng-model="filters.keyword" />
+    </md-toolbar>
+
+    <md-content flex layout-padding layout="column" style="position:relative" >
+
+      <md-list class="cvo-list">
+
+        <md-list-item class="cvo-list-item md-1-line md-no-proxy" ng-repeat-start="cvo in compositedVOList">
+          <md-button aria-label="Open menu" class="md-icon-button" ng-click="cvo.expanded = !cvo.expanded">
+            <md-icon md-font-icon="fas" ng-class="cvo.expanded ? 'fa-angle-up' : 'fa-angle-down'"></md-icon>
+          </md-button>
+
+          <i class="cvo-list-item-icon md-avatar" ng-class="cvo.icon" ng-style="iconBGColor(cvo.iconColor)"></i>
+
+          <div flex class="md-list-item-text" ng-click="cvo.expanded = !cvo.expanded">
+            <h2>{{cvo.cvoName}}</h2>
+          </div>
+          <md-menu >
+            <md-button aria-label="Open menu" class="md-icon-button" ng-click="openCVOItemMenu($mdMenu, $event)">
+              <md-icon md-font-icon="fas fa-ellipsis-v"></md-icon>
+            </md-button>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button ng-click="moveToComposer(cvo.cvoId)" aria-label="Open CVO editor" >
+                  <md-icon md-font-icon="fas fa-edit"></md-icon>
+                  Edit Composited VO
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+
+        </md-list-item>
+        <md-list-item ng-show="!cvo.expanded" class="vo-list-item md-2-line"
+                      draggable="true" vspace-draggable-vo vo="node.nodeData"
+                      ng-repeat="node in cvo.nodeList | filter:filters.keyword "
+                      ng-class="cvo.selected ? 'selected' : ''"
+                      ng-if="node.nodeType == 'vo'"
+                      >
+          <i class="vo-list-item-icon md-avatar" ng-class="node.nodeData.icon" ng-style="iconBGColor(node.nodeData.iconColor)"></i>
+          <div class="md-list-item-text" ng-click="selectVirtualSpace(node.nodeData)">
+            <h3 ng-bind="node.nodeData.voName"></h3>
+            <p ng-bind="node.nodeData.voId"></p>
+          </div>
+        </md-list-item>
+        <md-divider ng-repeat-end></md-divider>
+      </md-list>
+
+    </md-content>
+
+
+    <md-button ng-click="showCreateVSpaceDialog($event)" class="md-fab md-primary fixed-right-down" aria-label="Create">
+      <md-icon md-font-icon="fas fa-plus"></md-icon>
+    </md-button>
+
+
+
+  </md-sidenav>
+
+
+</div>

@@ -1,0 +1,116 @@
+(function() {
+  'use strict';
+
+  angular
+    .module('ciotPlatform')
+    .service('apiService', ApiService);
+
+
+  ApiService.$inject = ['$http', 'notificationService', 'authService'];
+
+  function ApiService($http, notificationService, authService) {
+
+    return {
+      getDashboardData: _getDashboardData,
+      listOpenServices: _listOpenServices,
+
+
+
+
+
+
+    };
+
+
+    function _getDashboardData() {
+      return new Promise(function(resolve, reject) {
+
+        try {
+          var httpOptions = {
+            url: window.API_BASE_URL + '/dashboard',
+            method: "GET"
+          };
+          authService.addAccessTokenHeader(httpOptions, true);
+
+          $http(httpOptions)
+            .then(function(response){
+              resolve(response.data);
+            })
+
+            .catch(function(err){
+              notificationService.showErrorMessage(err);
+              reject(err);
+            });
+        }
+        catch(ex) {
+          console.error(ex);
+          reject(ex);
+        }
+
+      });
+    }
+
+
+    function _listOpenServices() {
+      return new Promise(function(resolve, reject) {
+
+        try {
+          var httpOptions = {
+            url: window.API_BASE_URL + '/openservice',
+            method: "GET"
+          };
+          authService.addAccessTokenHeader(httpOptions, true);
+
+          $http(httpOptions)
+            .then(function(response){
+              resolve(response.data);
+            })
+
+            .catch(function(err){
+              notificationService.showErrorMessage(err);
+              reject(err);
+            });
+        }
+        catch(ex) {
+          console.error(ex);
+          reject(ex);
+        }
+
+      });
+    }
+
+
+    function _getAeResourceList() {
+      return new Promise(function(resolve, reject) {
+
+        try {
+
+          var httpOptions = {
+            url: window.API_BASE_URL + '/resource/ae',
+            method: "GET"
+          };
+          authService.addAccessTokenHeader(httpOptions);
+
+          $http(httpOptions)
+
+            .then(function(response){
+
+              resolve(response.data);
+            })
+
+            .catch(function(err){
+              notificationService.showErrorMessage(err);
+              reject(err);
+            });
+        }
+        catch(ex) {
+          console.error(ex);
+          reject(ex);
+        }
+
+      });
+    }
+
+  }
+
+})();

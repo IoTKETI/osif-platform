@@ -1,0 +1,222 @@
+<div flex layout="column" class="dashboard" ng-controller="openServiceController" ng-init="init()">
+
+  <md-content layout="row" layout-padding layout-wrap>
+
+    <div class="dummy-layout" flex>
+      <md-card class="openservice-list">
+        <md-card-header class="md-card-header-icon md-card-header-green">
+          <div class="card-icon">
+            <md-icon md-font-icon="fas fa-share-square"></md-icon>
+          </div>
+          <h3 class="title">공개 서비스 목록</h3>
+        </md-card-header>
+        <md-card-content>
+
+          <md-content class="paginated-table table-striped table-hover">
+            <md-toolbar class="md-menu-toolbar table-toolbar">
+              <div layout="row">
+
+                <md-input-container class="no-error no-label">
+                  <label>Per pages</label>
+                  <md-select ng-model="rowsPerPage">
+                    <md-option ng-repeat="state in [10, 20, 30, 40]" ng-value="state">
+                      {{state}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+
+                <span flex></span>
+
+                <md-input-container class="no-error no-label">
+                  <label>Search records</label>
+                  <input type="search" placeholder="Search records" ng-model="searchKeyword">
+                </md-input-container>
+
+              </div>
+            </md-toolbar>
+            <md-content class="md-table-content table-striped table-hover" layout="row" style="background-color: white;">
+              <table flex>
+                <thead>
+                  <tr>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container">
+                        <div class="md-table-head-label">이름</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container">
+                        <div class="md-table-head-label">버전</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">개발자</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">데이터</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">사용자 수</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">등록일</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">d</div>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="md-table-row" ng-repeat="openservice in openServiceList">
+                    <td class="md-table-cell" flex>
+                      <div class="md-table-cell-container" ng-bind="openservice.serviceName"></div>
+                    </td>
+                    <td class="md-table-cell">
+                      <div class="md-table-cell-container" ng-bind="openservice.versionName"></div>
+                    </td>
+                    <td class="md-table-cell">
+                      <div class="md-table-cell-container" ng-bind="openservice.owner.username"></div>
+                    </td>
+                    <td class="md-table-cell text-center">
+                      <div class="md-table-cell-container" layout="row">
+                        <md-button class="md-icon-button openservice-data-type" ng-class="openservice.openData.local ? 'on': 'off'">
+                          <md-icon md-font-icon="fas fa-microchip" ></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button openservice-data-type" ng-class="openservice.openData.global ? 'on': 'off'">
+                          <md-icon md-font-icon="fas fa-cloud-upload-alt" ></md-icon>
+                        </md-button>
+                      </div>
+                    </td>
+                    <td class="md-table-cell text-right">
+                      <div class="md-table-cell-container" ng-bind="openservice.userCount|number"></div>
+                    </td>
+                    <td class="md-table-cell text-center">
+                      <div class="md-table-cell-container" ng-bind="openservice.createdAt|date"></div>
+                    </td>
+                    <td class="md-table-cell text-center">
+                      <div class="md-table-cell-container list-command-button" layout="row">
+                        <md-button class="md-icon-button add-to-my-list" aria-label="Add to my service">
+                          <md-icon md-font-icon="fas fa-heart"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button delete" aria-label="Delete service">
+                          <md-icon md-font-icon="fas fa-trash-alt"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button show-more" aria-label="Show more">
+                          <md-icon md-font-icon="fas fa-info"></md-icon>
+                        </md-button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <thead>
+                <tr>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container">
+                      <div class="md-table-head-label">이름</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container">
+                      <div class="md-table-head-label">버전</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">개발자</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">데이터</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">사용자 수</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">등록일</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">d</div>
+                    </div>
+                  </th>
+                </tr>
+                </thead>
+              </table>
+            </md-content> </md-content>
+
+
+          <div class="footer-table md-table">
+            <table data-v-3f5d70e7="">
+              <tfoot data-v-3f5d70e7="">
+              <tr data-v-3f5d70e7="">
+                <th class="md-table-head">
+                  <div class="md-table-head-container md-disabled">
+                    <div class="md-table-head-label">
+                      Name
+                    </div>
+                  </div>
+                </th>
+                <th class="md-table-head">
+                  <div class="md-table-head-container md-disabled">
+                    <div class="md-table-head-label">
+                      Email
+                    </div>
+                  </div>
+                </th>
+                <th class="md-table-head">
+                  <div class="md-table-head-container md-disabled">
+                    <div class="md-table-head-label">
+                      Age
+                    </div>
+                  </div>
+                </th>
+                <th class="md-table-head">
+                  <div class="md-table-head-container md-disabled">
+                    <div class="md-table-head-label">
+                      Salary
+                    </div>
+                  </div>
+                </th>
+                <th class="md-table-head">
+                  <div class="md-table-head-container md-disabled">
+                    <div class="md-table-head-label">
+                      Actions
+                    </div>
+                  </div>
+                </th>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+
+
+        </md-card-content>
+        <md-card-actions class="md-alignment-left">
+
+
+
+          <md-button>ddd</md-button>
+
+
+        </md-card-actions>
+      </md-card>
+    </div>
+
+  </md-content>
+
+</div>

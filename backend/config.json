@@ -1,0 +1,25 @@
+{
+  "default" : {
+    "node" : {
+      "port": "8889"
+    },
+
+    "mongo": {
+      "host": "localhost",
+      "port": "27017",
+      "database": "ciot-service-platform",
+      "user": "ciot-platform-user",
+      "password": "tkdydwk12#$"
+    },
+
+    "email": {
+      "service": "gmail",
+      "sender": "tech.iotocean@gmail.com",
+      "secret": "iotocean7580!"
+    },
+
+    "security": {
+      "authSecret": "ciot-platform.keti.re.kr"
+    }
+  }
+}

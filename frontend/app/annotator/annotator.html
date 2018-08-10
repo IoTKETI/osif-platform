@@ -1,0 +1,227 @@
+<div flex layout="row" class="annotator" ng-controller="annotatorController" ng-init="init()" md-theme="annotator">
+
+
+
+  <md-sidenav
+    class="md-sidenav-left"
+    md-component-id="annotator-sidebar"
+    md-is-locked-open="true"
+    md-whiteframe="4"
+    flle="none"
+  >
+
+    <md-toolbar flex="none">
+      <h1 class="md-toolbar-tools"><i class="far fa-map"></i>&nbsp;Application Entity list</h1>
+      <input type="text" ng-model="filters.keyword" />
+    </md-toolbar>
+
+    <md-content flex layout-padding layout="column" style="position:relative" >
+
+      <md-list class="ae-list">
+
+        <md-list-item class="aelist-item md-1-line md-no-proxy" ng-repeat-start="ae in aeResourceList">
+          <md-button aria-label="Button" class="md-icon-button" ng-click="ae.expanded = !ae.expanded">
+            <md-icon md-font-icon="fas" ng-class="ae.expanded ? 'fa-angle-up' : 'fa-angle-down'"></md-icon>
+          </md-button>
+
+          <div flex class="md-list-item-text" ng-click="ae.expanded = !ae.expanded">
+            <h2>{{ae.aeName}}</h2>
+          </div>
+          <md-menu >
+            <md-button aria-label="Button" aria-label="Open memu" class="md-icon-button" ng-click="openAEItemMenu($mdMenu, $event)">
+              <md-icon md-font-icon="fas fa-ellipsis-v"></md-icon>
+            </md-button>
+            <md-menu-content width="4">
+              <md-menu-item>
+                <md-button ng-click="moveToVSpaceEditor(vspace)">
+                  <md-icon md-font-icon="fas fa-edit"></md-icon>
+                  Edit Virtual Space
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="deleteVSpace(vspace)" aria-label="Button" >
+                  <md-icon md-font-icon="fas fa-trash-alt"></md-icon>
+                  Delete Virtual Space
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+
+        </md-list-item>
+        <md-list-item ng-show="!ae.expanded" class="cnt-list-item md-2-line"
+                      ng-repeat="cnt in ae.containers | filter:filters.keyword "
+                      ng-click="selectContainer(ae, cnt)"
+                      ng-class="isSelected(ae, cnt)"
+        >
+          <i class="vo-list-item-icon md-avatar bg-color" ng-class="cnt.virtualObject.icon" ng-style="iconBGColor(cnt.virtualObject.iconColor)"></i>
+          <div class="md-list-item-text" >
+            <h3 ng-bind="cnt.resource.rn"></h3>
+            <p ng-bind="cnt.virtualObject.resourceUrl"></p>
+          </div>
+        </md-list-item>
+
+
+        <md-divider ng-repeat-end></md-divider>
+      </md-list>
+
+    </md-content>
+
+
+    <md-button ng-click="showRegisterAEResourceDialog($event)" class="md-fab md-primary fixed-right-down" aria-label="Create virtual space">
+      <md-icon md-font-icon="fas fa-plus"></md-icon>
+    </md-button>
+
+  </md-sidenav>
+
+
+  <md-content flex layout="row" layout-padding layout-align="center start" style="position: relative !important">
+    <md-content ng-if="selectedContainerResource === null" flex style="max-width: 800px; min-width: 400px;">
+      왼쪽에서 컨테이너 리소스를 선택하면 리소스에 대한 정보를 수정할 수 있습니다.
+    </md-content>
+
+    <md-content ng-if="selectedContainerResource != null" flex style="max-width: 800px; min-width: 400px;">
+
+      <md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Icon & color</span>
+            <span class="md-subhead">Select icon and color</span>
+          </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content layout="row">
+          <div flex="50" >
+            <md-input-container>
+              <label>Icon</label>
+              <input>
+            </md-input-container>
+          </div>
+
+          <div flex="50" >
+            <md-input-container>
+              <label>Color</label>
+              <input>
+            </md-input-container>
+          </div>
+        </md-card-content>
+      </md-card>
+
+      <md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Name and description</span>
+            <span class="md-subhead">Give a name and describe about virtual object.</span>
+          </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content layout="column">
+          <md-input-container>
+            <label>Name</label>
+            <input/>
+          </md-input-container>
+
+          <md-input-container>
+            <label>Description</label>
+            <textarea></textarea>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+
+      <md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Semantic data annotation</span>
+            <span class="md-subhead">Describe semantic properties for this virtual object.</span>
+          </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content>
+
+          <div layout="column">
+            <p>Data type</p>
+
+            <md-radio-group ng-model="formData.dataType" layout="row">
+              <md-radio-button flex="25" value="{{type.value}}" ng-repeat="type in restrictionTypes">{{type.label}}</md-radio-button>
+            </md-radio-group>
+
+            <hr/>
+
+
+            <div ng-if="formData.dataType == 'number' || formData.dataType == 'string'">
+              <p>Value restriction</p>
+              <md-chips ng-if="formData.dataType == 'number'" ng-model="formData.numberRestriction" placeholder="Input value hear"></md-chips>
+              <md-chips ng-if="formData.dataType == 'string'" ng-model="formData.stringRestriction" placeholder="Input value hear"></md-chips>
+            </div>
+
+            <div ng-if="formData.dataType == 'object' ">
+              <div layout="row">
+                <p flex>Value restriction</p>
+                <md-button class="md-icon-button" aria-label="Button" ng-click="addObjectRestriction(-1)">
+                  <md-icon md-font-icon="fa fa-plus"/>
+                </md-button>
+              </div>
+              <md-list>
+                <md-list-item ng-if="formData.objectRestrictions.length == 0">
+
+                </md-list-item>
+                <md-list-item ng-repeat="restriction in formData.objectRestrictions track by $index">
+                  <div flex layout="row">
+                    <md-input-container>
+                      <label>Name</label>
+                      <input ng-model="restriction.name"/>
+                    </md-input-container>
+                    <md-input-container>
+                      <label>Type</label>
+                      <md-select ng-model="restriction.type" style="min-width: 110px;">
+                        <md-option ng-repeat="restrictionType in objectRestrictionTypes" value="{{restrictionType.value}}">
+                          {{restrictionType.label}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                    <md-chips class="md-chips-inline" ng-if="restriction.type == 'number'" flex ng-model="restriction.numberRestriction" placeholder="Input value hear"></md-chips>
+                    <md-chips class="md-chips-inline" ng-if="restriction.type == 'string'" flex ng-model="restriction.stringRestriction" placeholder="Input value hear"></md-chips>
+                    <span ng-if="restriction.type == 'boolean'" flex ></span>
+
+                    <md-button class="md-icon-button" aria-label="Button" ng-click="deleteObjectRestriction($index)">
+                      <md-icon md-font-icon="fa fa-trash"/>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Button" ng-click="addObjectRestriction($index)">
+                      <md-icon md-font-icon="fa fa-plus"/>
+                    </md-button>
+
+                  </div>
+                </md-list-item>
+              </md-list>
+
+            </div>
+
+          </div>
+        </md-card-content>
+      </md-card>
+
+
+      <md-card>
+        <md-card-content>
+          <div layout="row">
+            <md-button aria-label="Reset" >
+              Reset
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised md-primary" aria-label="Save" >
+              Save
+            </md-button>
+          </div>
+
+        </md-card-content>
+      </md-card>
+
+
+
+    </md-content>
+
+
+  </md-content>
+
+
+</div>
