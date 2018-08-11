@@ -5,31 +5,14 @@ var _ = require("lodash");
 var ServiceModel = require('../models/service.model.js');
 
 
-function _listOpenservices() {
+function _listOpenservices(page, rowsPerPage) {
 
   return new Promise((resolve, reject)=>{
 
     try{
-      ServiceModel.listOpenservices()
+      ServiceModel.listOpenservices(page, rowsPerPage)
         .then((openserviceList)=>{
-          openserviceList = openserviceList.map((item)=>{
 
-            item.userCount = item.referenced.length;
-
-            var properties = [
-              "openData",
-              "serviceName",
-              "versionName",
-              "versionCode",
-              "owner",
-              "serviceId",
-              "updatedAt",
-              "createdAt",
-              "referenced",
-              "userCount"
-            ]
-            return _.pick(item, properties);
-          });
 
           resolve(openserviceList);
         })

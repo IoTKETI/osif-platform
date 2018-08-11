@@ -157,57 +157,37 @@
                 </tr>
                 </thead>
               </table>
-            </md-content> </md-content>
-
-
-          <div class="footer-table md-table">
-            <table data-v-3f5d70e7="">
-              <tfoot data-v-3f5d70e7="">
-              <tr data-v-3f5d70e7="">
-                <th class="md-table-head">
-                  <div class="md-table-head-container md-disabled">
-                    <div class="md-table-head-label">
-                      Name
-                    </div>
-                  </div>
-                </th>
-                <th class="md-table-head">
-                  <div class="md-table-head-container md-disabled">
-                    <div class="md-table-head-label">
-                      Email
-                    </div>
-                  </div>
-                </th>
-                <th class="md-table-head">
-                  <div class="md-table-head-container md-disabled">
-                    <div class="md-table-head-label">
-                      Age
-                    </div>
-                  </div>
-                </th>
-                <th class="md-table-head">
-                  <div class="md-table-head-container md-disabled">
-                    <div class="md-table-head-label">
-                      Salary
-                    </div>
-                  </div>
-                </th>
-                <th class="md-table-head">
-                  <div class="md-table-head-container md-disabled">
-                    <div class="md-table-head-label">
-                      Actions
-                    </div>
-                  </div>
-                </th>
-              </tr>
-              </tfoot>
-            </table>
-          </div>
-
+            </md-content>
+          </md-content>
 
         </md-card-content>
         <md-card-actions class="md-alignment-left">
+          <md-content layout="row">
+            <div flex="none">
+              총 <span ng-bind="paging.total"></span>개 중 <span ng-bind="paging.begin"></span> - <span ng-bind="paging.end"></span>
+            </div>
+            <span flex></span>
 
+            <div flex="none">
+              <ul class="page-list-control" layout="row">
+                <li class="page-list-item prev-page-button">
+                  <md-button class="md-icon-button" ng-click="moveToPrevPage()" ng-disabled="paging.current == 1">
+                    <md-icon md-font-icon="fas fa-angle-double-left"></md-icon>
+                  </md-button>
+                </li>
+                <li class="page-list-item page-number-button" ng-repeat="page in paging.pageList">
+                  <md-button ng-class="paging.current == page ? 'md-fab md-mini md-accent' : 'md-icon-button'"  ng-click="moveToPage(page)">
+                    <span ng-bind="page"></span>
+                  </md-button>
+                </li>
+                <li class="page-list-item prev-page-button">
+                  <md-button class="md-icon-button"  ng-click="moveToNextPage()" ng-disabled="paging.current == paging.total">
+                    <md-icon md-font-icon="fas fa-angle-double-right"></md-icon>
+                  </md-button>
+                </li>
+              </ul>
+            </div>
+          </md-content>
 
 
           <md-button>ddd</md-button>

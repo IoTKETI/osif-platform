@@ -51,13 +51,18 @@
     }
 
 
-    function _listOpenServices() {
+    function _listOpenServices(page, rowsPerPage) {
       return new Promise(function(resolve, reject) {
 
         try {
+          var params = {
+            page: page,
+            rowsPerPage: rowsPerPage
+          };
           var httpOptions = {
             url: window.API_BASE_URL + '/openservice',
-            method: "GET"
+            method: "GET",
+            params: params
           };
           authService.addAccessTokenHeader(httpOptions, true);
 

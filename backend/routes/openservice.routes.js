@@ -5,7 +5,10 @@ const openserviceManager = require('../managers/openservice.manager.js')
 
 /* GET control node types that supports backend. */
 router.get('/', (req, res) => {
-  openserviceManager.listOpenservices()
+  var page = parseInt(req.query.page || 1);
+  var rowsPerPage = parseInt(req.query.rowsPerPage || 20);
+
+  openserviceManager.listOpenservices(page, rowsPerPage)
     .then(function(openserviceList){
       //  Success listControlNodeTypes
       res.status(200).send(openserviceList);

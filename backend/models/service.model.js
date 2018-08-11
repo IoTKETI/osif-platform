@@ -32,7 +32,10 @@ ModelService.statics.create = function(owner, serviceProfile) {
   return service.save()
 };
 
-ModelService.statics.listOpenservices = function() {
+ModelService.statics.listOpenservices = function(current, rowsPerPage) {
+
+  current = current || 1;
+  rowsPerPage = rowsPerPage || 10;
 
   return new Promise((resolve, reject)=>{
     try {
@@ -57,16 +60,28 @@ ModelService.statics.listOpenservices = function() {
             }
           },
 
+          // Stage 2
+          {
+            $lookup: {
+              "from" : "users",
+              "foreignField" : "_id",
+              "localField" : "owner",
+              "as" : "owner"
+            }
+          },
+
           // Stage 3
           {
             $project: {
-              "userCount": {$size: { "$ifNull": [ "$referenced", [] ]}},
+              "userCount": {
+                $size: { "$ifNull": [ "$referenced", [] ]}
+              },
               "openData" : 1,
               "serviceName" : 1,
               "versionName" : 1,
               "versionCode" : 1,
               "open" : 1,
-              "owner" : 1,
+              "owner" : { $arrayElemAt: [ {"$ifNull": ["$owner", [null]]}, 0]},
               "serviceId" : 1,
               "updatedAt" : 1,
               "createdAt" : 1
@@ -78,6 +93,13 @@ ModelService.statics.listOpenservices = function() {
             $sort: {
               "userCount": -1
             }
+          },
+
+          {
+            $facet: {
+              metadata: [ { $count: "total" }, { $addFields: { current: current, rowsPerPage: rowsPerPage } } ],
+              data: [ { $skip: (current-1) * rowsPerPage }, { $limit: rowsPerPage } ]
+            }
           }
 
         ])
@@ -86,9 +108,9 @@ ModelService.statics.listOpenservices = function() {
         .cursor({ batchSize: 100 })
         .exec();
 
-      var result = [];
+      var result = null;
       cursor.on('data', (doc)=>{
-        result.push(doc);
+        result = doc;
       })
       .on('end', ()=>{
         resolve(result);

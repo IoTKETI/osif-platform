@@ -33,3 +33,11 @@ md-toolbar.table-toolbar {
 .openservice-data-type.on md-icon {
   color: #dd8912;
 }
+
+
+.page-list-control .page-list-item {
+  list-style:none;
+}
+.page-list-control .page-list-item .md-button{
+  margin: 0 1px !important;
+}
