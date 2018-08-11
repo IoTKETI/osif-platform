@@ -59,7 +59,7 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
               "as" : "referenced"
             }
           },
-
+          
           // Stage 2
           {
             $lookup: {
