@@ -15,6 +15,7 @@
   <link type="text/css" rel="stylesheet" href="css/auth.css">
   <link type="text/css" rel="stylesheet" href="css/dashboard.css">
   <link type="text/css" rel="stylesheet" href="css/openservice.css">
+  <link type="text/css" rel="stylesheet" href="app/tools/style.tools.css">
 
   <!--  Font awesome  -->
   <link rel='stylesheet' href='components/fontawesome/web-fonts-with-css/css/fontawesome-all.css' />
@@ -46,6 +47,7 @@
   <script src="app/auth/auth.controller.js"></script>
   <script src="app/dashboard/controller.dashboard.js"></script>
   <script src="app/openservice/controller.openservice.js"></script>
+  <script src="app/tools/controller.tools.metadata.js"></script>
 
 
 </head>
@@ -162,7 +164,20 @@
                 <i class="fas fa-chalkboard-teacher gnb-menu-item"></i>
                 <span>활용 가이드</span>
               </a>
+              <md-list class="nav-sub-group" style="display: block;">
+                <md-list-item>
+                  <a class="md-button nav-item" ui-sref="myservice">
+                    <span class="sidebar-mini">G</span><span class="sidebar-normal">활용 가이드</span>
+                  </a>
+                </md-list-item>
 
+                <md-list-item>
+                  <a class="md-button nav-item" ui-sref="tools-metadata">
+                    <span class="sidebar-mini">T</span><span class="sidebar-normal">서비스 메타정보 생성기</span>
+                  </a>
+                </md-list-item>
+
+              </md-list>
             </div>
           </md-list-item>
         </md-list>

@@ -49,6 +49,13 @@
           templateUrl: './app/openservice/view.openservice.html'
         })
 
+
+        // Tool for service metadata generator
+        .state('tools-metadata', {
+          url: '/tools-metadata',
+          templateUrl: './app/tools/view.tools.metadata.html'
+        })
+
       ;
 
 
