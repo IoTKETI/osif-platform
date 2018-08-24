@@ -7,7 +7,6 @@
     .controller('openServiceController', OpenServiceController)
   ;
 
-
   OpenServiceController.$inject = ['$scope', '$state', '$mdDialog', 'apiService'];
 
   function OpenServiceController($scope, $state, $mdDialog, apiService) {
