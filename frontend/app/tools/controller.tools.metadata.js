@@ -184,8 +184,8 @@
     function _showMetadataPreviewDialog(ev) {
 
       if($scope.metadataForm.$invalid) {
-        alert('aa');
-        return;
+        //alert('aa');
+        //return;
       }
 
       $mdDialog.show({

@@ -187,7 +187,7 @@ exports.authCheck = (req, res, next) => {
   else {
     return res.status(403).json({
       success: false,
-      message: err.message()
+      message: req.auth.error.name
     });
   }
 };

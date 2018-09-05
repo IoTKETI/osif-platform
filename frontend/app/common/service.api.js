@@ -14,6 +14,8 @@
       getDashboardData: _getDashboardData,
       listOpenServices: _listOpenServices,
 
+      listMyServices: _listMyServices,
+
 
 
 
@@ -63,6 +65,37 @@
             url: window.API_BASE_URL + '/openservice',
             method: "GET",
             params: params
+          };
+          authService.addAccessTokenHeader(httpOptions, true);
+
+          $http(httpOptions)
+            .then(function(response){
+              resolve(response.data);
+            })
+
+            .catch(function(err){
+              notificationService.showErrorMessage(err);
+              reject(err);
+            });
+        }
+        catch(ex) {
+          console.error(ex);
+          reject(ex);
+        }
+
+      });
+    }
+
+
+    function _listMyServices() {
+      return new Promise(function(resolve, reject) {
+
+        try {
+          var params = {
+          };
+          var httpOptions = {
+            url: window.API_BASE_URL + '/myservice',
+            method: "GET",
           };
           authService.addAccessTokenHeader(httpOptions, true);
 

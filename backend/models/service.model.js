@@ -21,7 +21,7 @@ var ModelService = new Schema({
     "local": Schema.Types.Mixed,
     "global": Schema.Types.Mixed
   }
-})
+});
 
 // create new User document
 ModelService.statics.create = function(owner, serviceProfile) {
@@ -114,6 +114,98 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
       })
       .on('end', ()=>{
         resolve(result);
+      });
+    }
+    catch(ex) {
+      debug.log('Exception: ', ex);
+      reject(ex);
+    }
+  });
+};
+
+
+ModelService.statics.listMyservices = function(owner) {
+
+  var ownerId = owner._id  ;
+
+
+  return new Promise((resolve, reject)=>{
+    try {
+
+      var cursor = this.aggregate(
+        // Pipeline
+        [
+           // Stage 1
+          {
+            $lookup: {
+              "from" : "myservices",
+              "foreignField" : "service",
+              "localField" : "_id",
+              "as" : "referenced"
+            }
+          },
+
+          // Stage 2
+          {
+            $lookup: {
+              "from" : "users",
+              "foreignField" : "_id",
+              "localField" : "owner",
+              "as" : "owner"
+            }
+          },
+
+          // Stage 3
+          {
+            $project: {
+              "userCount": {
+                $size: { "$ifNull": [ "$referenced", [] ]}
+              },
+              "refuser": {"$indexOfArray": ["$referenced.owner",  ownerId]},
+              "openData" : 1,
+              "serviceName" : 1,
+              "versionName" : 1,
+              "versionCode" : 1,
+              "open" : 1,
+              "owner" : { $arrayElemAt: [ {"$ifNull": ["$owner", [null]]}, 0]},
+              "serviceId" : 1,
+              "updatedAt" : 1,
+              "createdAt" : 1
+            }
+          },
+
+          // Stage 4
+          {
+            $match: {
+              "$or" : [
+                {"owner._id": ownerId},
+                {"refuser": {$ne: -1}}
+              ]
+            }
+          },
+
+          // Stage 4
+          {
+            $sort: {
+              "userCount": -1
+            }
+          }
+
+        ])
+
+        .allowDiskUse(true)
+        .cursor({ batchSize: 100 })
+        .exec();
+
+      var result = [];
+      cursor.on('data', (doc)=>{
+        result.push(doc);
+      })
+      .on('end', ()=>{
+        resolve(result);
+      })
+      .on('error', (err)=>{
+        reject(err);
       });
     }
     catch(ex) {

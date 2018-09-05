@@ -3,7 +3,7 @@ const router = express.Router();
 
 const openserviceManager = require('../managers/openservice.manager.js')
 
-/* GET control node types that supports backend. */
+/* GET list open services */
 router.get('/', (req, res) => {
   var page = parseInt(req.query.page || 1);
   var rowsPerPage = parseInt(req.query.rowsPerPage || 20);

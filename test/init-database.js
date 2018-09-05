@@ -19,19 +19,19 @@ function __padding(num, len) {
 }
 
 var users = [];
-var NUM_OF_USERS = 1000;
+var NUM_OF_USERS = 100;
 
 for(var i=1; i < NUM_OF_USERS; i++) {
   users.push({
-    username: 'user-' + __padding(i,15),
-    userid: 'user' + __padding(i,15) + '@acme.re.kr',
+    username: 'user-' + __padding(i,5),
+    userid: 'user' + __padding(i,5) + '@acme.re.kr',
     password: 'user1234%^&*'
   });
 }
 
 
 var services = [];
-var NUM_OF_SERVICES = NUM_OF_USERS / 2;
+var NUM_OF_SERVICES = NUM_OF_USERS * 4;
 
 for(var i=1; i < NUM_OF_SERVICES; i++) {
   var versionCode = parseInt(Math.random()*2) + "." + parseInt(Math.random()*2) + "." + parseInt(Math.random()*2);

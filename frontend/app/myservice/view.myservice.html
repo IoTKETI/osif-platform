@@ -1,0 +1,160 @@
+<div flex layout="column" class="dashboard" ng-controller="myServiceController" ng-init="init()">
+
+  <md-content layout="row" layout-padding layout-wrap>
+
+    <div class="dummy-layout" flex>
+      <md-card class="myservice-list">
+        <md-card-header class="md-card-header-icon md-card-header-green">
+          <div class="card-icon">
+            <md-icon md-font-icon="fas fa-share-square"></md-icon>
+          </div>
+          <h3 class="title">My 서비스 목록</h3>
+        </md-card-header>
+        <md-card-content>
+
+          <md-content class="table-striped table-hover">
+            <md-toolbar class="md-menu-toolbar table-toolbar">
+              <div layout="row">
+
+                <span flex></span>
+
+                <md-input-container class="no-error no-label">
+                  <label>Search records</label>
+                  <input type="search" placeholder="Search records" ng-model="searchKeyword">
+                </md-input-container>
+
+              </div>
+            </md-toolbar>
+            <md-content class="md-table-content table-striped table-hover" layout="row" style="background-color: white;">
+              <table flex>
+                <thead>
+                  <tr>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container">
+                        <div class="md-table-head-label">이름</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container">
+                        <div class="md-table-head-label">버전</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">개발자</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">데이터</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">사용자 수</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">등록일</div>
+                      </div>
+                    </th>
+                    <th class="md-table-head">
+                      <div class="md-table-head-container md-disabled">
+                        <div class="md-table-head-label">d</div>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="md-table-row" ng-repeat="myservice in myServiceList">
+                    <td class="md-table-cell" flex>
+                      <div class="md-table-cell-container" ng-bind="myservice.serviceName"></div>
+                    </td>
+                    <td class="md-table-cell">
+                      <div class="md-table-cell-container" ng-bind="myservice.versionName"></div>
+                    </td>
+                    <td class="md-table-cell">
+                      <div class="md-table-cell-container" ng-bind="getUserName(myservice.owner)"></div>
+                    </td>
+                    <td class="md-table-cell text-center">
+                      <div class="md-table-cell-container" layout="row">
+                        <md-button class="md-icon-button myservice-data-type" ng-class="myservice.openData.local ? 'on': 'off'">
+                          <md-icon md-font-icon="fas fa-microchip" ></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button myservice-data-type" ng-class="myservice.openData.global ? 'on': 'off'">
+                          <md-icon md-font-icon="fas fa-cloud-upload-alt" ></md-icon>
+                        </md-button>
+                      </div>
+                    </td>
+                    <td class="md-table-cell text-right">
+                      <div class="md-table-cell-container" ng-bind="myservice.userCount|number"></div>
+                    </td>
+                    <td class="md-table-cell text-center">
+                      <div class="md-table-cell-container" ng-bind="myservice.createdAt|date"></div>
+                    </td>
+                    <td class="md-table-cell text-center">
+                      <div class="md-table-cell-container list-command-button" layout="row">
+                        <md-button class="md-icon-button add-to-my-list" aria-label="Add to my service">
+                          <md-icon md-font-icon="fas fa-heart"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button delete" aria-label="Delete service">
+                          <md-icon md-font-icon="fas fa-trash-alt"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button show-more" aria-label="Show more">
+                          <md-icon md-font-icon="fas fa-info"></md-icon>
+                        </md-button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <thead>
+                <tr>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container">
+                      <div class="md-table-head-label">이름</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container">
+                      <div class="md-table-head-label">버전</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">개발자</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">데이터</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">사용자 수</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">등록일</div>
+                    </div>
+                  </th>
+                  <th class="md-table-head">
+                    <div class="md-table-head-container md-disabled">
+                      <div class="md-table-head-label">d</div>
+                    </div>
+                  </th>
+                </tr>
+                </thead>
+              </table>
+            </md-content>
+          </md-content>
+
+        </md-card-content>
+      </md-card>
+    </div>
+
+  </md-content>
+
+</div>
