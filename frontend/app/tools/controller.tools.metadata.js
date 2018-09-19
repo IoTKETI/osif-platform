@@ -168,8 +168,8 @@
       else {
         var data = {
           name: 'new-open-data',
-          description: 'new open data',
-          template: 'describe open data hear'
+          description: 'new service endpoint',
+          template: 'describe service endpoint hear'
         };
 
         var newData = __cloneOpenData(targetGroup, data);

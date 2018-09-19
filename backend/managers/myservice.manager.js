@@ -17,6 +17,7 @@ function _createMyService(authToken, serviceInfo) {
         .then((userDoc)=> {
           _owner = userDoc;
 
+          serviceInfo.open = true;
           return ServiceModel.create(_owner, serviceInfo);
         })
 

@@ -10,8 +10,13 @@ var ModelService = new Schema({
     default: shortid.generate
   },
   "serviceName": String,
-  "versionName": String,
-  "versionCode": String,
+  "serviceDesc": String,
+  "versionCode": {
+    "major": Number,
+    "minor": Number,
+    "revision": Number
+  },
+  "creator": String,
   "owner": {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -35,7 +40,7 @@ ModelService.statics.create = function(owner, serviceProfile) {
 ModelService.statics.listOpenservices = function(current, rowsPerPage) {
 
   current = current || 1;
-  rowsPerPage = rowsPerPage || 10;
+  rowsPerPage = rowsPerPage || 30;
 
   return new Promise((resolve, reject)=>{
     try {
@@ -76,6 +81,7 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
               "userCount": {
                 $size: { "$ifNull": [ "$referenced", [] ]}
               },
+              "referenced": 1,
               "openData" : 1,
               "serviceName" : 1,
               "versionName" : 1,
@@ -91,7 +97,7 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
           // Stage 4
           {
             $sort: {
-              "userCount": -1
+              "createdAt": -1
             }
           },
 

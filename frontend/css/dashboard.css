@@ -8,3 +8,7 @@
  */
 
 
+.dashboard-stats-card h3.title {
+  font-size: 1.3em;
+  font-weight: 300;
+}

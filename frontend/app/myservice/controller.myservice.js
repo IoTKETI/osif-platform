@@ -7,17 +7,18 @@
     .controller('myServiceController', MyServiceController)
   ;
 
-  MyServiceController.$inject = ['$scope', '$state', '$mdDialog', 'apiService', 'authService'];
+  MyServiceController.$inject = ['$scope', '$state', '$mdDialog', 'apiService', 'authService', 'localStorageService'];
 
-  function MyServiceController($scope, $state, $mdDialog, apiService, authService) {
+  function MyServiceController($scope, $state, $mdDialog, apiService, authService, localStorageService) {
 
     $scope.init = _init;
 
     $scope.getUserName = _getUserName;
+    $scope.getVersion = _getVersion;
 
 
     function _init() {
-      $scope.loginUser = authService.getLoginUser();
+      $scope.loginUser = localStorageService.get('loginUser');
 
       apiService.listMyServices()
         .then(function(myServiceList){
@@ -35,6 +36,13 @@
         return 'Me';
       else
         return user.username;
+    }
+
+    function _getVersion(versionCode) {
+      if(versionCode)
+        return versionCode.major + '.' + versionCode.minor + '.' + versionCode.revision;
+      else
+        return ''
     }
   }
 

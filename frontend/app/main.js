@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('ciotPlatform', ['ui.router', 'LocalStorageModule', 'ngMaterial', 'jsonFormatter', 'ngclipboard'])
+    .module('ciotPlatform', ['ui.router', 'LocalStorageModule', 'ngMaterial', 'jsonFormatter', 'ngclipboard', 'chart.js'])
     .config(config)
     .controller('mainController', MainController)
     .run(run);
 
-    function config($stateProvider, $urlRouterProvider, $mdThemingProvider, localStorageServiceProvider) {
+    function config($stateProvider, $urlRouterProvider, $mdThemingProvider, localStorageServiceProvider, ChartJsProvider) {
 
       $urlRouterProvider.otherwise('/dashboard');
 
@@ -66,21 +66,21 @@
 
 
       localStorageServiceProvider
-        .setPrefix('ciotPlatform');
-      localStorageServiceProvider
-        .setStorageType('localStorage');
+        .setPrefix('ciotPlatform')
+        .setStorageType('localStorage')
+        .setNotify(true, true);
 
-
+      ChartJsProvider.setOptions({ colors : [ '#fff', '#fff'] });
 
 
     };
 
 
     //  controller inject
-  MainController.$inject = ['$scope', '$rootScope', '$mdSidenav', 'authService'];
+  MainController.$inject = ['$scope', '$rootScope', '$mdSidenav', 'authService', 'localStorageService'];
 
 
-  function MainController($scope, $rootScope, $mdSidenav, authService) {
+  function MainController($scope, $rootScope, $mdSidenav, authService, localStorageService) {
     $scope.showSideNav = true
 
 
@@ -98,7 +98,23 @@
 
     function _init() {
 
-      $scope.loginUser = authService.getLoginUser();
+      $scope.loginUser = localStorageService.get('loginUser');
+
+      $scope.$on("LocalStorageModule.notification.removeitem", function (key, type) {
+        if(key === 'loginUser') {
+          //  TODO make logged out
+          $scope.loginUser = null;
+        }
+      });
+
+      $scope.$on("LocalStorageModule.notification.setitem", function (event, params) {
+        if(params.key === 'loginUser') {
+          //  TODO make logged in
+          var loginUser = JSON.parse(params.newvalue);
+          $scope.loginUser = loginUser;
+        }
+      });
+
 
     }
 

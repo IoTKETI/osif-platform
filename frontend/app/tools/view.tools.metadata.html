@@ -10,23 +10,23 @@
             <div class="card-icon">
               <md-icon md-font-icon="fas fa-share-square"></md-icon>
             </div>
-            <h3 class="title">서비스 정보</h3>
+            <h3 class="title">Service information</h3>
           </md-card-header>
           <div layout="row" layout-padding layout-wrap>
 
             <md-input-container flex="30" flex-sm="100">
-              <label>서비스 이름</label>
+              <label>Service name</label>
               <input type="text" name="serviceName" ng-model="formData.service.serviceName" required/>
               <div ng-messages="metadataForm.serviceName.$error" role="alert" multiple>
-                <div ng-message="required">필수 입력</div>
+                <div ng-message="required">Required</div>
               </div>
             </md-input-container>
 
             <md-input-container flex="30" flex-sm="100">
-              <label>개발자 이름</label>
+              <label>Developer's name</label>
               <input type="text" name="creator" ng-model="formData.service.creator" required/>
               <div ng-messages="metadataForm.creator.$error" role="alert" multiple>
-                <div ng-message="required">필수 입력</div>
+                <div ng-message="required">Required</div>
               </div>
             </md-input-container>
 
@@ -48,7 +48,7 @@
             </div>
 
             <md-input-container flex="100">
-              <label>서비스 설명</label>
+              <label>Service description</label>
               <textarea type="text" ng-model="formData.service.serviceDesc" rows="3"/>
             </md-input-container>
 
@@ -62,7 +62,7 @@
             <div class="card-icon">
               <md-icon md-font-icon="fas fa-share-square"></md-icon>
             </div>
-            <h3 class="title">데이터 버스</h3>
+            <h3 class="title">Open service endpoint</h3>
           </md-card-header>
 
           <md-card-content>
@@ -70,17 +70,17 @@
             <div layout="row" layout-padding layout-wrap>
 
               <md-input-container flex="70" flex-sm="100">
-                <label>글로벌 데이터 버스 호스트</label>
+                <label>Global OSIF Data Grid endpoint</label>
                 <input type="text" ng-model="formData.databus.globalHost" placeholder="210.93.172.33" required/>
               </md-input-container>
 
               <md-input-container flex="30" flex-sm="100">
-                <label>글로벌 데이터 버스 포트</label>
+                <label>Global OSIF Data Grid port</label>
                 <input type="text" ng-model="formData.databus.globalPort" placeholder="5701" required/>
               </md-input-container>
 
               <md-input-container flex>
-                <label>글로벌 데이터 버스 포트</label>
+                <label>Local OSIF Data Grid port</label>
                 <input type="text" ng-model="formData.databus.localPort" placeholder="5701" required/>
               </md-input-container>
 
@@ -91,7 +91,7 @@
                 <section>
                   <md-subheader >
                     <div layout="row">
-                      <span flex>로컬 데이터</span>
+                      <span flex>Local service endpoint </span>
                       <md-icon md-font-icon="fas fa-plus" class="md-secondary" ng-click="addOpenData('local', null)" aria-label="Add"></md-icon>
                     </div>
                   </md-subheader>
@@ -112,7 +112,7 @@
                 <section>
                   <md-subheader >
                     <div layout="row">
-                      <span flex>글로벌 데이터</span>
+                      <span flex>Global service endpoint</span>
                       <md-icon md-font-icon="fas fa-plus" class="md-secondary" ng-click="addOpenData('global', null)" aria-label="Add"></md-icon>
                     </div>
                   </md-subheader>
@@ -136,21 +136,21 @@
               <div flex="50" layout="column">
 
                 <div flex ng-if="!editingData" layout="row" layout-align="center center">
-                  <h1 flex>왼쪽 리스트 아이템을 선택하여 내용을 편집할 수 있습니다.</h1>
+                  <h1 flex>Select list item first</h1>
                 </div>
                 <div ng-if="editingData" layout="column">
                   <md-input-container>
-                    <label>오픈데이터 이름</label>
+                    <label>Service endpoint name</label>
                     <input type="text" ng-model="editingData.name" required/>
                   </md-input-container>
 
                   <md-input-container>
-                    <label>오픈데이터 설명</label>
+                    <label>Service endpoint description</label>
                     <textarea type="text" ng-model="editingData.description" rows="3" required/>
                   </md-input-container>
 
                   <md-input-container>
-                    <label>오픈데이터 예제</label>
+                    <label>Service endpoint template</label>
                     <textarea type="text" ng-model="editingData.template" rows="3" required/>
                   </md-input-container>
                 </div>
@@ -172,7 +172,7 @@
 
         <span flex></span>
         <md-button class="md-raised md-primary" ng-click="showMetadataPreviewDialog()">
-          <md-icon md-font-icon="far fa-window-restore"></md-icon> 메타데이터 생성
+          <md-icon md-font-icon="far fa-window-restore"></md-icon> Generate service description
         </md-button>
       </div>
     </form>

@@ -87,7 +87,7 @@ exports.login = (req, res) => {
             secret,
             {
               expiresIn: '7d',
-              issuer: 'CIoT Platform',
+              issuer: 'OSIF Portal Service',
               subject: 'User login'
             }, (err, token) => {
               if (err) reject(err)

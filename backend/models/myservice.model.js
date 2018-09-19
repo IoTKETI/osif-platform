@@ -31,7 +31,7 @@ ModelMyservice.statics.list = function(owner) {
 
   return this.find({
     owner: owner
-  }).populate('service').exec();
+  }).populate('service').sort({ createdAt: -1 }).exec();
 
 };
 
