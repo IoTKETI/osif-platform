@@ -27,14 +27,12 @@ ModelMyservice.statics.create = function(owner, service) {
 };
 
 // create new User document
-ModelMyservice.statics.list = function(owner, service) {
+ModelMyservice.statics.list = function(owner) {
 
-  var myservice = new this({
-    owner: owner,
-    service: service
-  });
+  return this.find({
+    owner: owner
+  }).populate('service').sort({ createdAt: -1 }).exec();
 
-  return myservice.save()
 };
 
 

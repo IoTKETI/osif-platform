@@ -8,7 +8,7 @@
           <div class="card-icon">
             <md-icon md-font-icon="fas fa-share-square"></md-icon>
           </div>
-          <h3 class="title">공개 서비스 목록</h3>
+          <h3 class="title">Open services</h3>
         </md-card-header>
         <md-card-content>
 
@@ -40,51 +40,51 @@
                   <tr>
                     <th class="md-table-head">
                       <div class="md-table-head-container">
-                        <div class="md-table-head-label">이름</div>
+                        <div class="md-table-head-label">Name</div>
                       </div>
                     </th>
                     <th class="md-table-head">
                       <div class="md-table-head-container">
-                        <div class="md-table-head-label">버전</div>
+                        <div class="md-table-head-label">Version</div>
                       </div>
                     </th>
                     <th class="md-table-head">
                       <div class="md-table-head-container md-disabled">
-                        <div class="md-table-head-label">개발자</div>
+                        <div class="md-table-head-label">Developer</div>
                       </div>
                     </th>
                     <th class="md-table-head">
                       <div class="md-table-head-container md-disabled">
-                        <div class="md-table-head-label">데이터</div>
+                        <div class="md-table-head-label">Service endpoint</div>
                       </div>
                     </th>
                     <th class="md-table-head">
                       <div class="md-table-head-container md-disabled">
-                        <div class="md-table-head-label">사용자 수</div>
+                        <div class="md-table-head-label">Number of users</div>
                       </div>
                     </th>
                     <th class="md-table-head">
                       <div class="md-table-head-container md-disabled">
-                        <div class="md-table-head-label">등록일</div>
+                        <div class="md-table-head-label">Registered at</div>
                       </div>
                     </th>
                     <th class="md-table-head">
                       <div class="md-table-head-container md-disabled">
-                        <div class="md-table-head-label">d</div>
+                        <div class="md-table-head-label"></div>
                       </div>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="md-table-row" ng-repeat="openservice in openServiceList">
+                  <tr class="md-table-row" ng-repeat="openservice in openServiceList | filter: searchKeyword">
                     <td class="md-table-cell" flex>
                       <div class="md-table-cell-container" ng-bind="openservice.serviceName"></div>
                     </td>
                     <td class="md-table-cell">
-                      <div class="md-table-cell-container" ng-bind="openservice.versionName"></div>
+                      <div class="md-table-cell-container" ng-bind="getUserName(openservice.owner)"></div>
                     </td>
                     <td class="md-table-cell">
-                      <div class="md-table-cell-container" ng-bind="openservice.owner.username"></div>
+                      <div class="md-table-cell-container" ng-bind="getVersion(openservice.versionCode)"></div>
                     </td>
                     <td class="md-table-cell text-center">
                       <div class="md-table-cell-container" layout="row">
@@ -104,7 +104,7 @@
                     </td>
                     <td class="md-table-cell text-center">
                       <div class="md-table-cell-container list-command-button" layout="row">
-                        <md-button class="md-icon-button add-to-my-list" aria-label="Add to my service">
+                        <md-button class="md-icon-button add-to-my-list" aria-label="Add to my service" ng-click="openservice.bookmark = !openservice.bookmark" ng-class="openservice.bookmark ? 'on' : 'off'">
                           <md-icon md-font-icon="fas fa-heart"></md-icon>
                         </md-button>
                         <md-button class="md-icon-button delete" aria-label="Delete service">
@@ -121,37 +121,37 @@
                 <tr>
                   <th class="md-table-head">
                     <div class="md-table-head-container">
-                      <div class="md-table-head-label">이름</div>
+                      <div class="md-table-head-label">Name</div>
                     </div>
                   </th>
                   <th class="md-table-head">
                     <div class="md-table-head-container">
-                      <div class="md-table-head-label">버전</div>
+                      <div class="md-table-head-label">Version</div>
                     </div>
                   </th>
                   <th class="md-table-head">
                     <div class="md-table-head-container md-disabled">
-                      <div class="md-table-head-label">개발자</div>
+                      <div class="md-table-head-label">Developer</div>
                     </div>
                   </th>
                   <th class="md-table-head">
                     <div class="md-table-head-container md-disabled">
-                      <div class="md-table-head-label">데이터</div>
+                      <div class="md-table-head-label">Service endpoint</div>
                     </div>
                   </th>
                   <th class="md-table-head">
                     <div class="md-table-head-container md-disabled">
-                      <div class="md-table-head-label">사용자 수</div>
+                      <div class="md-table-head-label">Number of users</div>
                     </div>
                   </th>
                   <th class="md-table-head">
                     <div class="md-table-head-container md-disabled">
-                      <div class="md-table-head-label">등록일</div>
+                      <div class="md-table-head-label">Registered at</div>
                     </div>
                   </th>
                   <th class="md-table-head">
                     <div class="md-table-head-container md-disabled">
-                      <div class="md-table-head-label">d</div>
+                      <div class="md-table-head-label"></div>
                     </div>
                   </th>
                 </tr>
@@ -164,7 +164,7 @@
         <md-card-actions class="md-alignment-left">
           <md-content layout="row">
             <div flex="none">
-              총 <span ng-bind="paging.total"></span>개 중 <span ng-bind="paging.begin"></span> - <span ng-bind="paging.end"></span>
+              Total <span ng-bind="paging.total"></span><span ng-bind="paging.begin"></span> - <span ng-bind="paging.end"></span>
             </div>
             <span flex></span>
 
@@ -188,10 +188,6 @@
               </ul>
             </div>
           </md-content>
-
-
-          <md-button>ddd</md-button>
-
 
         </md-card-actions>
       </md-card>

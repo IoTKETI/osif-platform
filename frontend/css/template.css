@@ -116,3 +116,43 @@ md-card md-card-header.md-card-header-icon.md-card-header-rose .card-icon {
   padding-left: 10px;
 }
 
+
+md-card.md-card-chart .md-card-header {
+  position:relative;
+  border-radius: 6px ;
+  box-shadow: rgba(233, 30, 99, 0.28) 0px 12px 20px -10px, rgba(0, 0, 0, 0.12) 0px 4px 20px 0px, rgba(233, 30, 99, 0.2) 0px 7px 8px -5px ;
+  box-sizing: border-box ;
+  display: block ;
+  height: 145px;
+  margin: -20px 15px 0 15px;
+  padding: 10px;
+  z-index: 2 ;
+}
+
+
+md-card.md-card-chart .md-card-header {
+  background-attachment: scroll;
+  background-clip: border-box ;
+  background-color: rgba(0, 0, 0, 0) ;
+  background-origin: padding-box ;
+  background-position-x: 0% ;
+  background-position-y: 0% ;
+  background-size: auto ;
+}
+
+md-card.md-card-chart .md-card-header.md-card-header-green {
+  background-image: linear-gradient(60deg, rgb(102, 187, 106), rgb(67, 160, 71));
+}
+
+md-card.md-card-chart .md-card-header.md-card-header-rose {
+  background-image: linear-gradient(60deg, rgb(236, 64, 122), rgb(216, 27, 96));
+}
+
+md-card.md-card-chart .md-card-header.md-card-header-blue {
+  background-image: linear-gradient(60deg, rgb(38, 198, 218), rgb(0, 172, 193));
+}
+
+
+md-card.md-card-chart .chart {
+  height: 100% !important;
+}

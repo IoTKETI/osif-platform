@@ -10,8 +10,13 @@ var ModelService = new Schema({
     default: shortid.generate
   },
   "serviceName": String,
-  "versionName": String,
-  "versionCode": String,
+  "serviceDesc": String,
+  "versionCode": {
+    "major": Number,
+    "minor": Number,
+    "revision": Number
+  },
+  "creator": String,
   "owner": {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -21,7 +26,7 @@ var ModelService = new Schema({
     "local": Schema.Types.Mixed,
     "global": Schema.Types.Mixed
   }
-})
+});
 
 // create new User document
 ModelService.statics.create = function(owner, serviceProfile) {
@@ -35,7 +40,7 @@ ModelService.statics.create = function(owner, serviceProfile) {
 ModelService.statics.listOpenservices = function(current, rowsPerPage) {
 
   current = current || 1;
-  rowsPerPage = rowsPerPage || 10;
+  rowsPerPage = rowsPerPage || 30;
 
   return new Promise((resolve, reject)=>{
     try {
@@ -76,6 +81,7 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
               "userCount": {
                 $size: { "$ifNull": [ "$referenced", [] ]}
               },
+              "referenced": 1,
               "openData" : 1,
               "serviceName" : 1,
               "versionName" : 1,
@@ -91,7 +97,7 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
           // Stage 4
           {
             $sort: {
-              "userCount": -1
+              "createdAt": -1
             }
           },
 
@@ -114,6 +120,98 @@ ModelService.statics.listOpenservices = function(current, rowsPerPage) {
       })
       .on('end', ()=>{
         resolve(result);
+      });
+    }
+    catch(ex) {
+      debug.log('Exception: ', ex);
+      reject(ex);
+    }
+  });
+};
+
+
+ModelService.statics.listMyservices = function(owner) {
+
+  var ownerId = owner._id  ;
+
+
+  return new Promise((resolve, reject)=>{
+    try {
+
+      var cursor = this.aggregate(
+        // Pipeline
+        [
+           // Stage 1
+          {
+            $lookup: {
+              "from" : "myservices",
+              "foreignField" : "service",
+              "localField" : "_id",
+              "as" : "referenced"
+            }
+          },
+
+          // Stage 2
+          {
+            $lookup: {
+              "from" : "users",
+              "foreignField" : "_id",
+              "localField" : "owner",
+              "as" : "owner"
+            }
+          },
+
+          // Stage 3
+          {
+            $project: {
+              "userCount": {
+                $size: { "$ifNull": [ "$referenced", [] ]}
+              },
+              "refuser": {"$indexOfArray": ["$referenced.owner",  ownerId]},
+              "openData" : 1,
+              "serviceName" : 1,
+              "versionName" : 1,
+              "versionCode" : 1,
+              "open" : 1,
+              "owner" : { $arrayElemAt: [ {"$ifNull": ["$owner", [null]]}, 0]},
+              "serviceId" : 1,
+              "updatedAt" : 1,
+              "createdAt" : 1
+            }
+          },
+
+          // Stage 4
+          {
+            $match: {
+              "$or" : [
+                {"owner._id": ownerId},
+                {"refuser": {$ne: -1}}
+              ]
+            }
+          },
+
+          // Stage 4
+          {
+            $sort: {
+              "userCount": -1
+            }
+          }
+
+        ])
+
+        .allowDiskUse(true)
+        .cursor({ batchSize: 100 })
+        .exec();
+
+      var result = [];
+      cursor.on('data', (doc)=>{
+        result.push(doc);
+      })
+      .on('end', ()=>{
+        resolve(result);
+      })
+      .on('error', (err)=>{
+        reject(err);
       });
     }
     catch(ex) {

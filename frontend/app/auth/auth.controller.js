@@ -16,8 +16,8 @@
 
     $scope.formData = {
       "login": {
-        "userid": "",
-        "password": ""
+        "userid": "iot01@keti.re.kr",
+        "password": "user123"
       },
 
       "signup": {

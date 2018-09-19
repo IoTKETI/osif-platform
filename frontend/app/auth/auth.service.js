@@ -14,8 +14,6 @@
   function AuthService($http, $state, notificationService, localStorageService) {
 
     var services = {
-      "getLoginUser": _getLoginUser,
-      "getAuthToken": _getAuthToken,
       "addAccessTokenHeader": _addAccessTokenHeader,
 
       "login": _login,
@@ -27,16 +25,6 @@
     };
     return services;
 
-
-    function _getLoginUser() {
-      var authToken = localStorageService.get('authToken');
-      if(authToken) {
-        return jwt_decode(authToken);
-      }
-      else {
-        return null;
-      }
-    }
 
     function _addAccessTokenHeader(httpOptions, doNotForward) {
       var authToken = localStorageService.get('authToken') || null;
@@ -53,20 +41,6 @@
       }
     }
 
-    function _getAuthToken(doNotForward) {
-
-      var authToken = localStorageService.get('authToken');
-      if(authToken) {
-        return authToken;
-      }
-      else if(!doNotForward) {
-        console.log('_getAuthToken', 'goto login page');
-
-        return $state.go('login');
-      }
-
-      return authToken;
-    }
 
     function _login(userid, password) {
       return new Promise(function(resolve, reject) {
@@ -87,10 +61,7 @@
 
           .then(function(response){
             localStorageService.set('authToken', response.data.token);
-
-            console.log( response.data.token );
-            console.log( jwt_decode(response.data.token));
-
+            localStorageService.set('loginUser', jwt_decode(response.data.token));
 
             resolve(response.data);
           })

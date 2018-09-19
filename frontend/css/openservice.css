@@ -41,3 +41,14 @@ md-toolbar.table-toolbar {
 .page-list-control .page-list-item .md-button{
   margin: 0 1px !important;
 }
+
+
+.myservice .md-subheader .md-subheader-inner {
+  display: block;
+  padding: 6px 16px !important;
+}
+
+
+.add-to-my-list.on md-icon {
+  color: #dd8912 !important;
+}

@@ -6,73 +6,102 @@ var UserModel = require("../models/user.model.js");
 
 
 
-
-var _testDashboardData = {
+var DASHBOARD_TEMPLATE_USER = {
   'stats': [
     {
-      "icon": "far fa-angry",
-      "title": "F1",
-      "value": "1111",
-      "unit": "dollor",             //  number, string, plus, dollar, krw,
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated"
+      "icon": "fas fa-cubes",
+      "title": "Service",
+      "value": "13",
+      "unit": "EA",             //  number, string, plus, dollar, krw,
+      "subIcon": "fas fa-file-upload",
+      "subText": "Uploaded open services"
     },
     {
-      "icon": "fas fa-balance-scale",
-      "title": "F1",
-      "value": "2222",
-      "unit": "dollor",             //  number, string, plus, dollar, krw,
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated"
+      "icon": "fas fa-heart",
+      "title": "Followers",
+      "value": "145",
+      "unit": "EA",             //  number, string, plus, dollar, krw,
+      "subIcon": "fas fa-tags",
+      "subText": "Tagged times by others"
     },
+    {
+      "icon": "far fa-play-circle",
+      "title": "Running device",
+      "value": "102",
+      "unit": "EA",             //  number, string, plus, dollar, krw,
+      "subIcon": "fas fa-tags",
+      "subText": "Tagged items"
+    }
+  ],
+
+    'chart': [
     {
       "icon": "fas fa-user",
-      "title": "F2",
-      "value": "3333",
-      "unit": "dollor",             //  number, string, plus, dollar, krw,
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated"
+      "title": "Service registration",
+      "desc": "New service registeration",
+      "subIcon": "fas fa-user",
+      "subText": "recent 1 years",
+      "data": []
     },
     {
-      "icon": "fas fa-users",
-      "title": "F3",
-      "value": "4444",
-      "unit": "dollor",             //  number, string, plus, dollar, krw,
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated"
+      "icon": "fas fa-cubes",
+      "title": "Followers",
+      "desc": "Number of followers",
+      "subIcon": "fas fa-cubes",
+      "subText": "recent 1 years",
+      "data": []
+    }
+
+  ]
+};
+
+
+var DASHBOARD_TEMPLATE_SYSTEM = {
+  'stats': [
+    {
+      "icon": "fas fa-user",
+      "title": "Users",
+      "value": "2,222",
+      "unit": "persons",             //  number, string, plus, dollar, krw,
+      "subIcon": "fas fa-user-plus",
+      "subText": "Active user"
+    },
+    {
+      "icon": "fas fa-cubes",
+      "title": "Open Service",
+      "value": "190,203",
+      "unit": "EA",             //  number, string, plus, dollar, krw,
+      "subIcon": "fas fa-warehouse",
+      "subText": "Registered open services"
+    },
+    {
+      "icon": "fas fa-power-off",
+      "title": "Open Data",
+      "value": "50,000",
+      "unit": "EA",             //  number, string, plus, dollar, krw,
+      "subIcon": "fas fa-database",
+      "subText": "Active process"
     }
   ],
   'chart': [
     {
-      "icon": "fas fas-person",
-      "title": "Website Views",
-      "desc": "Descriptions",
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated",
+      "icon": "fas fa-user",
+      "title": "Users",
+      "desc": "Sign in users",
+      "subIcon": "fas fa-user",
+      "subText": "recent 1 years",
       "data": []
     },
     {
-      "icon": "fas fas-person",
-      "title": "Website Views",
-      "desc": "Descriptions",
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated",
-      "data": []
-    },
-    {
-      "icon": "fas fas-person",
-      "title": "Website Views",
-      "desc": "Descriptions",
-      "subIcon": "fas fas-group",
-      "subText": "Just Updated",
+      "icon": "fas fa-cubes",
+      "title": "Open services",
+      "desc": "Registered open services",
+      "subIcon": "fas fa-cubes",
+      "subText": "recent 1 years",
       "data": []
     }
   ]
-
-
 };
-
-
 
 
 
@@ -83,9 +112,7 @@ function _getDashboardData(authToken) {
         UserModel.findOneByUserId(authToken.userid)
           .then((user)=>{
 
-            _testDashboardData.stats[0].title = 'login user: ' + authToken.username;
-
-            resolve(_testDashboardData);
+            resolve(DASHBOARD_TEMPLATE_USER);
           })
           .then((vspace)=>{
             resolve(vspace);
@@ -96,9 +123,7 @@ function _getDashboardData(authToken) {
 
       }
       else {
-        _testDashboardData.stats[0].title = 'not logged in';
-
-        resolve(_testDashboardData);
+        resolve(DASHBOARD_TEMPLATE_SYSTEM);
       }
 
 
