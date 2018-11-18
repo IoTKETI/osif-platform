@@ -37,7 +37,7 @@ function __padding(num, len) {
 }
 
 var users = [];
-var NUM_OF_USERS = 30;
+var NUM_OF_USERS = 5; // 30
 
 for(var i=1; i < NUM_OF_USERS; i++) {
   users.push({

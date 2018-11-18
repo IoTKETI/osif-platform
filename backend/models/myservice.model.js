@@ -13,7 +13,7 @@ var ModelMyservice = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Service'
   }
-})
+});
 
 // create new User document
 ModelMyservice.statics.create = function(owner, service) {
@@ -22,6 +22,11 @@ ModelMyservice.statics.create = function(owner, service) {
     owner: owner,
     service: service
   });
+
+
+
+
+
 
   return myservice.save()
 };

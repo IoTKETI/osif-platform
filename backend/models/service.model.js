@@ -1,13 +1,14 @@
 var mongoose = require('mongoose')
 var timestamps = require('mongoose-timestamp');
 var shortid = require('shortid');
+var uuidv4 = require('uuid/v4');
 
 var Schema = mongoose.Schema;
 
 var ModelService = new Schema({
   "serviceId": {
     type: String,
-    default: shortid.generate
+    default: uuidv4
   },
   "serviceName": String,
   "serviceDesc": String,

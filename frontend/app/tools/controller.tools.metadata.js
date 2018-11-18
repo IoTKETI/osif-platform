@@ -72,29 +72,12 @@
     $scope.deleteOpenData = _deleteOpenData;
     $scope.addOpenData = _addOpenData;
 
+    $scope.generateServiceId = _generateServiceId;
+
 
     function _init() {
 
-
-      //  test
-      // for(var i=0; i < 4; i++) {
-      //   var localData = {
-      //     name: 'local-data-name-' + (i+1),
-      //     description: 'local data description ' + (i+1),
-      //     template: '{asdfj: askfjs, asfa: asdfas, afasf: ' + ('local data name-' + (i+1)) + '}'
-      //   }
-      //   $scope.formData.service.openData.local.push(localData);
-      //
-      //   var globalData = {
-      //     name: 'global-data-name-' + (i+1),
-      //     description: 'global data description-' + (i+1),
-      //     template: '{asdfj: askfjs, asfa: asdfas, afasf: ' + ('global data-name-' + (i+1)) + '}'
-      //   }
-      //   $scope.formData.service.openData.global.push(globalData);
-      //
-      // }
-
-
+      $scope.formData.service.serviceId = window.uuidv4();
     }
 
 
@@ -179,7 +162,10 @@
 
     }
 
+    function _generateServiceId() {
+      $scope.formData.service.serviceId = window.uuidv4();
 
+    }
 
     function _showMetadataPreviewDialog(ev) {
 

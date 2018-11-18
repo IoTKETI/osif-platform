@@ -14,7 +14,7 @@
           </md-card-header>
           <div layout="row" layout-padding layout-wrap>
 
-            <md-input-container flex="30" flex-sm="100">
+            <md-input-container flex="50" flex-sm="100">
               <label>Service name</label>
               <input type="text" name="serviceName" ng-model="formData.service.serviceName" required/>
               <div ng-messages="metadataForm.serviceName.$error" role="alert" multiple>
@@ -22,7 +22,22 @@
               </div>
             </md-input-container>
 
-            <md-input-container flex="30" flex-sm="100">
+            <div flex="50" flex-sm="100" layout="row">
+              <md-input-container flex>
+                <label>Service ID</label>
+                <input type="text" name="creator" ng-model="formData.service.serviceId" required readonly/>
+                <div ng-messages="metadataForm.creator.$error" role="alert" multiple>
+                  <div ng-message="required">Required</div>
+                </div>
+              </md-input-container>
+              <div flex="none">
+                <md-button class="md-icon-buttom" ng-click="generateServiceId()">renew</md-button>
+              </div>
+
+            </div>
+
+
+            <md-input-container flex="50" flex-sm="100">
               <label>Developer's name</label>
               <input type="text" name="creator" ng-model="formData.service.creator" required/>
               <div ng-messages="metadataForm.creator.$error" role="alert" multiple>
@@ -30,7 +45,7 @@
               </div>
             </md-input-container>
 
-            <div flex="30" flex-sm="100" layout="row">
+            <div flex="50" flex-sm="100" layout="row">
               <md-input-container flex >
                 <label>Major</label>
                 <input flex type="text" ng-model="formData.service.versionCode.major" required/>
