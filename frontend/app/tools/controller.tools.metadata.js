@@ -59,7 +59,9 @@
         }
       },
       databus: {
-
+        globalHost: 'osif.iotocean.org',
+        globalPort: '5701',
+        localPort: '5701'
       }
     };
 
