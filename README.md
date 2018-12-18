@@ -9,11 +9,11 @@
 
 ### Concept of OSIF ###
 
-![Architecture of OSIF](./docs/osif-concept.png)
+![Architecture of OSIF](/docs/osif-concept.png)
 
 ### Architecture of OSIF ###
 
-![Architecture of OSIF](./docs/osif-architecture.png)
+![Architecture of OSIF](/docs/osif-architecture.png)
 
 ### Related repositories ###
 
