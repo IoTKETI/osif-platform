@@ -1,29 +1,21 @@
-# README #
+# OSIF (Open Service Integration Framework) #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### OSIF is a software integration framework for OCEAN. ###
 
-### What is this repository for? ###
+* An open source software platform
+* Supports the microservices architecture based on virtualization technology (Docker).
+* Provides OSIF data grid among services using Hazelcast's IMDG (In-Memory Data Grid).
+* Manages the lifecycle of services: download, monitor, run, stop and delete by Web UI.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Concept of OSIF ###
 
-### How do I get set up? ###
+![Architecture of OSIF](./docs/osif-concept.png)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Architecture of OSIF ###
 
-### Contribution guidelines ###
+![Architecture of OSIF](./docs/osif-architecture.png)
 
-* Writing tests
-* Code review
-* Other guidelines
+### Related repositories ###
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* [link to Google!](http://google.com)
+* [link to Google!](http://google.com)
