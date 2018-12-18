@@ -1,0 +1,33 @@
+<md-dialog aria-label="Service metadata preview" id="create-metadata-dialog">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Service metadata preview</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-font-icon="fas fa-times" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content style="max-width:800px; padding: 30px;">
+
+      <json-formatter open="5" json="metadata"></json-formatter>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+
+      <md-button class="md-raised" ng-click="cancel()">
+        <md-icon md-font-icon="fas fa-times"></md-icon> Close
+      </md-button>
+      <span flex></span>
+
+      <textarea ng-bind="metadataString" id="preview-text1" style="position: absolute; left: -10px; width: 0px; height: 0px"></textarea>
+      <md-button class="md-raised md-primary" ngclipboard data-clipboard-target="#preview-text1">
+        <md-icon md-font-icon="far fa-copy"></md-icon> Copy to clipboard
+      </md-button>
+
+    </md-dialog-actions>
+  </form>
+</md-dialog>

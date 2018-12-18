@@ -4,7 +4,7 @@ const router = express.Router();
 const systemManager = require('../managers/dashboard.manager.js')
 
 
-/* GET virtual space listing. */
+/* GET databoard data */
 router.get('/', (req, res) => {
 
   var authToken = req.auth ? req.auth.parsed : null;

@@ -5,7 +5,6 @@ var authManager = require('../managers/auth.manager.js')
 
 
 
-/* GET virtual space listing. */
 router.post('/user', authManager.register);
 
 router.post('/token', authManager.login);

@@ -8,6 +8,7 @@ const routes        = require('./backend/routes/index');
 const authRoutes    = require('./backend/routes/auth.routes.js');
 const dashboardRoutes  = require('./backend/routes/dashboard.routes.js');
 const openserviceRoutes  = require('./backend/routes/openservice.routes.js');
+const myserviceRoutes  = require('./backend/routes/myservice.routes.js');
 
 var authManager = require('./backend/managers/auth.manager.js')
 
@@ -49,7 +50,7 @@ app.use('/myservice', authManager.authCheck);
 
 app.use('/dashboard', dashboardRoutes);
 app.use('/openservice', openserviceRoutes);
-app.use('/myservice', openserviceRoutes);
+app.use('/myservice', myserviceRoutes);
 
 /// catch 404 and forward to error handler
 app.use((req, res, next) => {

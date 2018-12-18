@@ -1,121 +1,201 @@
 <div flex layout="column" class="tools" ng-controller="toolsMetadataController" ng-init="init()">
 
-  <md-content flex layout-padding >
 
-    <div class="dummy-layout"  flex>
-      <md-card>
-        <md-card-header class="md-card-header-icon md-card-header-green">
-          <div class="card-icon">
-            <md-icon md-font-icon="fas fa-share-square"></md-icon>
-          </div>
-          <h3 class="title">서비스 정보</h3>
-        </md-card-header>
-        <div layout="row" layout-padding layout-wrap>
+  <div flex layout-padding style="overflow: scroll;">
+    <form name="metadataForm">
 
-          <md-input-container flex="50" flex-sm="100">
-            <label>서비스 이름</label>
-            <input type="text" ng-model="formData.serviceName" />
-          </md-input-container>
+      <div class="dummy-layout"  flex>
+        <md-card>
+          <md-card-header class="md-card-header-icon md-card-header-green">
+            <div class="card-icon">
+              <md-icon md-font-icon="fas fa-share-square"></md-icon>
+            </div>
+            <h3 class="title">Service information</h3>
+          </md-card-header>
+          <div layout="row" layout-padding layout-wrap>
 
-          <div flex="50" flex-sm="100" layout="row">
-            <md-input-container flex >
-              <label>Major</label>
-              <input flex type="text" ng-model="formData.versionCode1" />
+            <md-input-container flex="50" flex-sm="100">
+              <label>Service name</label>
+              <input type="text" name="serviceName" ng-model="formData.service.serviceName" required/>
+              <div ng-messages="metadataForm.serviceName.$error" role="alert" multiple>
+                <div ng-message="required">Required</div>
+              </div>
             </md-input-container>
-            <span class="version-code-separator" flex="none">.</span>
-            <md-input-container flex >
-              <label>Minor</label>
-              <input flex type="text" ng-model="formData.versionCode2" />
+
+            <div flex="50" flex-sm="100" layout="row">
+              <md-input-container flex>
+                <label>Service ID</label>
+                <input type="text" name="creator" ng-model="formData.service.serviceId" required readonly/>
+                <div ng-messages="metadataForm.creator.$error" role="alert" multiple>
+                  <div ng-message="required">Required</div>
+                </div>
+              </md-input-container>
+              <div flex="none">
+                <md-button class="md-icon-buttom" ng-click="generateServiceId()">renew</md-button>
+              </div>
+
+            </div>
+
+
+            <md-input-container flex="50" flex-sm="100">
+              <label>Developer's name</label>
+              <input type="text" name="creator" ng-model="formData.service.creator" required/>
+              <div ng-messages="metadataForm.creator.$error" role="alert" multiple>
+                <div ng-message="required">Required</div>
+              </div>
             </md-input-container>
-            <span class="version-code-separator" flex="none">.</span>
-            <md-input-container flex >
-              <label>Revision</label>
-              <input flex type="text" ng-model="formData.versionCode3" />
+
+            <div flex="50" flex-sm="100" layout="row">
+              <md-input-container flex >
+                <label>Major</label>
+                <input flex type="text" ng-model="formData.service.versionCode.major" required/>
+              </md-input-container>
+              <span class="version-code-separator" flex="none">.</span>
+              <md-input-container flex >
+                <label>Minor</label>
+                <input flex type="text" ng-model="formData.service.versionCode.minor" required/>
+              </md-input-container>
+              <span class="version-code-separator" flex="none">.</span>
+              <md-input-container flex >
+                <label>Revision</label>
+                <input flex type="text" ng-model="formData.service.versionCode.revision" required/>
+              </md-input-container>
+            </div>
+
+            <md-input-container flex="100">
+              <label>Service description</label>
+              <textarea type="text" ng-model="formData.service.serviceDesc" rows="3"/>
             </md-input-container>
+
           </div>
+        </md-card>
+      </div>
 
-          <md-input-container flex="100">
-            <label>서비스 설명</label>
-            <textarea type="text" ng-model="formData.serviceDesc" rows="3"/>
-          </md-input-container>
+      <div class="dummy-layout"  flex>
+        <md-card>
+          <md-card-header class="md-card-header-icon md-card-header-blue">
+            <div class="card-icon">
+              <md-icon md-font-icon="fas fa-share-square"></md-icon>
+            </div>
+            <h3 class="title">Open service endpoint</h3>
+          </md-card-header>
 
-        </div>
-      </md-card>
-    </div>
+          <md-card-content>
 
-    <div class="dummy-layout"  flex>
-      <md-card>
-        <md-card-header class="md-card-header-icon md-card-header-blue">
-          <div class="card-icon">
-            <md-icon md-font-icon="fas fa-share-square"></md-icon>
-          </div>
-          <h3 class="title">글로벌 데이터 버스</h3>
-        </md-card-header>
-        <div layout="row" layout-padding layout-wrap>
+            <div layout="row" layout-padding layout-wrap>
 
-          <md-input-container flex="70" flex-sm="100">
-            <label>호스트</label>
-            <input type="text" ng-model="formData.databus.globalHost" placeholder="210.93.172.33"/>
-          </md-input-container>
+              <md-input-container flex="70" flex-sm="100">
+                <label>Global OSIF Data Grid endpoint</label>
+                <input type="text" ng-model="formData.databus.globalHost" placeholder="210.93.172.33" required/>
+              </md-input-container>
 
-          <md-input-container flex="30" flex-sm="100">
-            <label>포트</label>
-            <input type="text" ng-model="formData.databus.globalPort" placeholder="5701"/>
-          </md-input-container>
-        </div>
+              <md-input-container flex="30" flex-sm="100">
+                <label>Global OSIF Data Grid port</label>
+                <input type="text" ng-model="formData.databus.globalPort" placeholder="5701" required/>
+              </md-input-container>
 
-        <div layout="row" layout-padding layout-wrap>
-          <md-list>
-            <md-list-item>
-              aaaa bbbb cccc dddd
-            </md-list-item>
-            <md-list-item>
-              aaaa bbbb cccc dddd
-            </md-list-item>
-            <md-list-item>
-              aaaa bbbb cccc dddd
-            </md-list-item>
-            <md-list-item>
-              aaaa bbbb cccc dddd
-            </md-list-item>
-            <md-list-item>
-              aaaa bbbb cccc dddd
-            </md-list-item>
-          </md-list>
-        </div>
-      </md-card>
-    </div>
+              <md-input-container flex>
+                <label>Local OSIF Data Grid port</label>
+                <input type="text" ng-model="formData.databus.localPort" placeholder="5701" required/>
+              </md-input-container>
+
+            </div>
+
+            <div class="opendata-list" layout="row" layout-padding layout-wrap>
+              <div flex="50" class="scroll-wrap">
+                <section>
+                  <md-subheader >
+                    <div layout="row">
+                      <span flex>Local service endpoint </span>
+                      <md-icon md-font-icon="fas fa-plus" class="md-secondary" ng-click="addOpenData('local', null)" aria-label="Add"></md-icon>
+                    </div>
+                  </md-subheader>
+                  <md-list  layout-padding>
+                    <md-list-item class="md-2-line md-long-text opendata-item" ng-repeat="data in formData.service.openData.local track by $index" ng-click="setEditingData(data)" ng-class="data == editingData ? 'active':''" aria-label="Select item">
+                      <md-icon md-font-icon="fas fa-microchip" class="md-avatar"></md-icon>
+                      <div class="md-list-item-text">
+                        <h3 ng-bind="data.name"></h3>
+                        <p ng-bind="data.description"></p>
+                      </div>
+
+                      <md-icon md-font-icon="fas fa-minus" class="md-secondary md-accent" ng-click="deleteOpenData('local', data)" aria-label="Delete" ></md-icon>
+                      <md-icon md-font-icon="fas fa-plus" class="md-secondary" ng-click="addOpenData('local', data)" aria-label="Add"></md-icon>
+
+                    </md-list-item>
+                  </md-list>
+                </section>
+                <section>
+                  <md-subheader >
+                    <div layout="row">
+                      <span flex>Global service endpoint</span>
+                      <md-icon md-font-icon="fas fa-plus" class="md-secondary" ng-click="addOpenData('global', null)" aria-label="Add"></md-icon>
+                    </div>
+                  </md-subheader>
+                  <md-list  layout-padding>
+                    <md-list-item class="md-2-line md-long-text opendata-item" ng-repeat="data in formData.service.openData.global track by $index" ng-click="setEditingData(data)" ng-class="data == editingData ? 'active':''" aria-label="Select item">
+                      <md-icon md-font-icon="fas fa-cloud-upload-alt" class="md-avatar"></md-icon>
+                      <div class="md-list-item-text">
+                        <h3 ng-bind="data.name"></h3>
+                        <p ng-bind="data.description"></p>
+                      </div>
+
+                      <md-icon md-font-icon="fas fa-minus" class="md-secondary md-accent" ng-click="deleteOpenData('global', data)" aria-label="Delete" ></md-icon>
+                      <md-icon md-font-icon="fas fa-plus" class="md-secondary" ng-click="addOpenData('global', data)" aria-label="Add"></md-icon>
+
+                    </md-list-item>
+                  </md-list>
+                </section>
+
+              </div>
+
+              <div flex="50" layout="column">
+
+                <div flex ng-if="!editingData" layout="row" layout-align="center center">
+                  <h1 flex>Select list item first</h1>
+                </div>
+                <div ng-if="editingData" layout="column">
+                  <md-input-container>
+                    <label>Service endpoint name</label>
+                    <input type="text" ng-model="editingData.name" required/>
+                  </md-input-container>
+
+                  <md-input-container>
+                    <label>Service endpoint description</label>
+                    <textarea type="text" ng-model="editingData.description" rows="3" required/>
+                  </md-input-container>
+
+                  <md-input-container>
+                    <label>Service endpoint template</label>
+                    <textarea type="text" ng-model="editingData.template" rows="3" required/>
+                  </md-input-container>
+                </div>
 
 
-    <div class="dummy-layout"  flex>
-      <md-card>
-        <md-card-header class="md-card-header-icon md-card-header-rose">
-          <div class="card-icon">
-            <md-icon md-font-icon="fas fa-share-square"></md-icon>
-          </div>
-          <h3 class="title">데이터 버스</h3>
-        </md-card-header>
-        <div layout="row" layout-padding layout-wrap>
+              </div>
 
-          <md-input-container flex="70" flex-sm="100">
-            <label>글로벌 호스트</label>
-            <input type="text" ng-model="formData.databus.globalHost" placeholder="210.93.172.33"/>
-          </md-input-container>
+            </div>
+          </md-card-content>
 
-          <md-input-container flex="30" flex-sm="100">
-            <label>글로벌 포트</label>
-            <input type="text" ng-model="formData.databus.globalPort" placeholder="5701"/>
-          </md-input-container>
 
-          <md-input-container flex>
-            <label>로컬 포트</label>
-            <input type="text" ng-model="formData.databus.localPort" placeholder="5701"/>
-          </md-input-container>
+        </md-card>
+      </div>
 
-        </div>
-      </md-card>
-    </div>
 
-  </md-content>
+
+
+      <div class="dummy-layout"  flex layout="row" layout-padding layout-wrap >
+
+        <span flex></span>
+        <md-button class="md-raised md-primary" ng-click="showMetadataPreviewDialog()">
+          <md-icon md-font-icon="far fa-window-restore"></md-icon> Generate service description
+        </md-button>
+      </div>
+    </form>
+
+
+  </div>
+
+
+
 
 </div>

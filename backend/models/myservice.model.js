@@ -13,7 +13,7 @@ var ModelMyservice = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Service'
   }
-})
+});
 
 // create new User document
 ModelMyservice.statics.create = function(owner, service) {
@@ -23,18 +23,21 @@ ModelMyservice.statics.create = function(owner, service) {
     service: service
   });
 
+
+
+
+
+
   return myservice.save()
 };
 
 // create new User document
-ModelMyservice.statics.list = function(owner, service) {
+ModelMyservice.statics.list = function(owner) {
 
-  var myservice = new this({
-    owner: owner,
-    service: service
-  });
+  return this.find({
+    owner: owner
+  }).populate('service').sort({ createdAt: -1 }).exec();
 
-  return myservice.save()
 };
 
 

@@ -3,30 +3,30 @@
   <md-card class="signin-form" >
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">회원 가입</span>
-        <span class="md-subhead">사용자 계정을 생성합니다.</span>
+        <span class="md-headline">Sign in</span>
+        <span class="md-subhead">Create new account</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
       <div layout="column">
         <md-input-container class="md-block">
-          <label>사용자 이름</label>
-          <input ng-model="formData.signup.username" type="text" on-key-enter="signup()" class="form-control" ng-required="true" placeholder="사용자 이름">
+          <label>User name</label>
+          <input ng-model="formData.signup.username" type="text" on-key-enter="signup()" class="form-control" ng-required="true" placeholder="User name">
         </md-input-container>
 
         <md-input-container class="md-block">
-          <label>사용자 계정(이메일)</label>
-          <input ng-model="formData.signup.userid" type="text" on-key-enter="signup()" class="form-control" ng-required="true" placeholder="이메일">
+          <label>User ID (email)</label>
+          <input ng-model="formData.signup.userid" type="text" on-key-enter="signup()" class="form-control" ng-required="true" placeholder="email">
         </md-input-container>
 
         <div layout="row">
           <md-input-container class="md-block">
-            <label>비밀번호</label>
+            <label>Password</label>
             <input ng-model="formData.signup.password" type="password">
           </md-input-container>
 
           <md-input-container class="md-block">
-            <label>비밀번호(확인)</label>
+            <label>Password confirm</label>
             <input ng-model="formData.signup.password2" type="password">
           </md-input-container>
         </div>
@@ -35,7 +35,7 @@
     </md-card-content>
 
     <md-card-actions layout="row" layout-align="end center">
-      <md-button ng-click="signup()">가입 신청</md-button>
+      <md-button ng-click="signup()">Sign in</md-button>
     </md-card-actions>
   </md-card>
 

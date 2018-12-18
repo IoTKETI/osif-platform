@@ -1,29 +1,30 @@
-# README #
+# OSIF (Open Service Integration Framework) #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### OSIF is a software integration framework for OCEAN. ###
 
-### What is this repository for? ###
+* An open source software platform
+* Supports the microservices architecture based on virtualization technology (Docker).
+* Provides OSIF data grid among services using Hazelcast's IMDG (In-Memory Data Grid).
+* Manages the lifecycle of services: download, monitor, run, stop and delete by Web UI.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Concept of OSIF ###
 
-### How do I get set up? ###
+![Architecture of OSIF](/docs/osif-concept.png)
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Architecture of OSIF ###
 
-### Contribution guidelines ###
+![Architecture of OSIF](/docs/osif-architecture.png)
 
-* Writing tests
-* Code review
-* Other guidelines
+### OSIF Platform & Client libraries ###
 
-### Who do I talk to? ###
+* [osif-node-platform](https://github.com/IoTKETI/osif-node-platform)
+* [osif-databus-client](https://github.com/IoTKETI/osif-databus-client)
+* [osif-databus-client-j](https://github.com/IoTKETI/osif-databus-client-j)
 
-* Repo owner or admin
-* Other community or team contact
+### Related repositories ###
+
+* [osif-demo-rpi-led](https://github.com/IoTKETI/osif-demo-rpi-led)
+* [osif-demo-rpi-switch](https://github.com/IoTKETI/osif-demo-rpi-switch)
+* [osif-demo-rpi-sensor](https://github.com/IoTKETI/osif-demo-rpi-sensor)
+* [osif-demo-gpio](https://github.com/IoTKETI/osif-demo-gpio)
+* [osif-demo-switch](https://github.com/IoTKETI/osif-demo-switch)

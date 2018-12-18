@@ -13,40 +13,69 @@ var ServiceModel = require('../backend/models/service.model.js');
 var MyserviceModel = require('../backend/models/myservice.model.js');
 
 
+
+
+var serviceNameList = [
+  "led", "home", "device", "factory", "environment", "air-quality", "energy", "light", "plug", "temperature"
+];
+
+var serviceName2List = [
+  "sensing", "control", "measure", "provider", "actuation"
+];
+
+
+
+
+
+
+
+
+
 function __padding(num, len) {
   var str = '000000000000000000000000000000000' + num;
   return str.substr(str.length - len);
 }
 
 var users = [];
-var NUM_OF_USERS = 1000;
+var NUM_OF_USERS = 5; // 30
 
 for(var i=1; i < NUM_OF_USERS; i++) {
   users.push({
-    username: 'user-' + __padding(i,15),
-    userid: 'user' + __padding(i,15) + '@acme.re.kr',
-    password: 'user1234%^&*'
+    username: 'IoTan' + __padding(i,2) + " KETI",
+    userid: 'iot' + __padding(i,2) + '@keti.re.kr',
+    password: 'user123'
   });
 }
 
 
 var services = [];
-var NUM_OF_SERVICES = NUM_OF_USERS / 2;
+var NUM_OF_SERVICES = NUM_OF_USERS * 4;
 
 for(var i=1; i < NUM_OF_SERVICES; i++) {
-  var versionCode = parseInt(Math.random()*2) + "." + parseInt(Math.random()*2) + "." + parseInt(Math.random()*2);
+  var versionCode = {
+    "major": parseInt(Math.random() * 2),
+    "minor": parseInt(Math.random() * 5),
+    "revision": parseInt(Math.random() * 10)
+  };
 
-  var localData = JSON.parse('{"name": "local"}');
-  var globalData = JSON.parse('{"name": "global"}');
+  var localData = JSON.parse('[{"name": "local", "description": "local open data"}]');
+  var globalData = JSON.parse('[{"name": "global", "description": "global open data"}]');
 
 
   var open = parseInt(Math.random()*4) % 2 == 0;
   var local = parseInt(Math.random()*5) % 2 == 0;
   var global = parseInt(Math.random()*8) % 2 == 0;
 
+  var r1 = parseInt(Math.random() * serviceNameList.length);
+  var r2 = parseInt(Math.random() * serviceName2List.length);
+
+  var servicePrefix =  serviceName2List[r2] + '-' + serviceNameList[r1]
+
+
+  var serviceName = servicePrefix + "-" + __padding(i,3);
   services.push({
-    "serviceName": "service-" + __padding(i,15),
-    "versionName": "V-" + versionCode,
+    "serviceName": serviceName,
+    "serviceDesc": "This service is for " +serviceName,
     "versionCode": versionCode,
     "open": open,
     "openData": {

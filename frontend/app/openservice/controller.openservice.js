@@ -7,7 +7,6 @@
     .controller('openServiceController', OpenServiceController)
   ;
 
-
   OpenServiceController.$inject = ['$scope', '$state', '$mdDialog', 'apiService'];
 
   function OpenServiceController($scope, $state, $mdDialog, apiService) {
@@ -19,13 +18,16 @@
     $scope.moveToNextPage = _moveToNextPage;
     $scope.moveToPage = _moveToPage;
 
+    $scope.getUserName = _getUserName;
+    $scope.getVersion = _getVersion;
+
 
     $scope.paging = {
       pageList: [1,2,3,4,5]
     };
 
     function _init() {
-      __list(1, 15);
+      __list(1, 20);
     }
 
     function _moveToPrevPage() {
@@ -44,6 +46,15 @@
         $scope.$apply(function () {
           $scope.openServiceList = openServiceList.data;
           var pagingInfo = openServiceList.metadata[0];
+
+
+          //  TODO remove
+          $scope.openServiceList.map(function(item){
+            item.bookmark = parseInt(Math.random() * 3) == 2;
+
+            return item;
+          });
+
 
           var begin = (pagingInfo.current-1) * pagingInfo.rowsPerPage + 1;
           $scope.paging = {
@@ -72,6 +83,20 @@
     }
 
 
+    function _getUserName(user) {
+
+      if($scope.loginUser && $scope.loginUser.userid == user.userid)
+        return 'Me';
+      else
+        return user.username;
+    }
+
+    function _getVersion(versionCode) {
+      if(versionCode)
+        return versionCode.major + '.' + versionCode.minor + '.' + versionCode.revision;
+      else
+        return ''
+    }
 
 
   }

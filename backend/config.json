@@ -7,8 +7,8 @@
     "mongo": {
       "host": "localhost",
       "port": "27017",
-      "database": "ciot-service-platform",
-      "user": "ciot-platform-user",
+      "database": "osif-platform",
+      "user": "osif-platform-user",
       "password": "tkdydwk12#$"
     },
 
@@ -19,7 +19,7 @@
     },
 
     "security": {
-      "authSecret": "ciot-platform.keti.re.kr"
+      "authSecret": "osif-platform.keti.re.kr"
     }
   }
 }

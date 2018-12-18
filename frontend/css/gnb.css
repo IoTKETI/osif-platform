@@ -53,13 +53,13 @@ md-sidenav.gnb-sidebar .gnb-menu-item {
 
 md-toolbar.ciot-top-toolbar {
   font-size: 15px !important;
-  color: #aab2bb !important;
+  color: #555 !important;
   background-color: #eee;
 }
 
 md-icon.top-menu-button {
   font-size: 18px !important;
-  color: #aab2bb !important;
+  color: #000 !important;
 }
 
 .main-content {
